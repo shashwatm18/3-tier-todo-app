@@ -1,0 +1,6 @@
+{
+  "name": "3-Tier Todo App",
+  "description": "A full-stack 3-tier Todo application with React + Vite frontend, Python FastAPI REST backend, and PostgreSQL database.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
