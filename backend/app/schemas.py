@@ -33,8 +33,5 @@ class TodoResponse(TodoBase):
     id: int = Field(..., description="Unique primary key identifier")
     created_at: datetime = Field(..., description="Timestamp when the todo was created")
 
-    # Support Pydantic V2 from_attributes & V1 orm_mode
+    # This is the single, clean way to support ORM object conversion in Pydantic V2
     model_config = ConfigDict(from_attributes=True)
-
-    class Config:
-        orm_mode = True
