@@ -1,6 +1,6 @@
 import { Todo, TodoCreate, TodoUpdate, BackendHealth } from '../types';
 
-const DEFAULT_API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const DEFAULT_API_BASE = '/api';
 const STORAGE_KEY_BASE = 'todo_app_api_url';
 const STORAGE_KEY_OFFLINE_TODOS = 'todo_app_local_preview_todos';
 

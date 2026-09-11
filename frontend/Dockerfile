@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -11,8 +11,16 @@ RUN npm install
 # Copy the rest of your frontend application source code
 COPY . .
 
-# Expose port 3000 (matching the "dev" script in your package.json)
+RUN npm run build
+
+
+# Production stage
+FROM nginx:alpine
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 3000
 
-# Start the Vite development server
-CMD ["npm", "run", "dev"]
+CMD ["nginx", "-g", "daemon off;"]
