@@ -22,7 +22,7 @@ jobs:
 
       # Step 3: Install project dependencies
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       # Step 4: Execute the lint script
       - name: Run npm lint
