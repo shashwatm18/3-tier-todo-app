@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
@@ -16,14 +15,22 @@ router = APIRouter(prefix="/todos", tags=["Todos"])
     description="Retrieve all todos with optional filtering by completed status or search keyword.",
 )
 def read_todos(
-    completed: bool | None = Query(None, description="Filter by completion status (true or false)"),
-    search: str | None = Query(None, description="Search term matching title or description"),
+    completed: bool | None = Query(
+        None, description="Filter by completion status (true or false)"
+    ),
+    search: str | None = Query(
+        None, description="Search term matching title or description"
+    ),
     skip: int = Query(0, ge=0, description="Number of records to skip"),
-    limit: int = Query(100, ge=1, le=500, description="Max number of records to return"),
+    limit: int = Query(
+        100, ge=1, le=500, description="Max number of records to return"
+    ),
     db: Session = Depends(get_db),
 ):
     """Retrieve all todos."""
-    return crud.get_todos(db=db, skip=skip, limit=limit, completed=completed, search=search)
+    return crud.get_todos(
+        db=db, skip=skip, limit=limit, completed=completed, search=search
+    )
 
 
 @router.post(
@@ -110,4 +117,7 @@ def delete_todo_item(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Todo with id {todo_id} not found.",
         )
-    return {"message": f"Todo with id {todo_id} has been deleted successfully.", "id": todo_id}
+    return {
+        "message": f"Todo with id {todo_id} has been deleted successfully.",
+        "id": todo_id,
+    }

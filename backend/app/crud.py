@@ -1,4 +1,3 @@
-
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
@@ -22,11 +21,17 @@ def get_todos(
     if search:
         search_pattern = f"%{search}%"
         query = query.filter(
-            (Todo.title.ilike(search_pattern)) | (Todo.description.ilike(search_pattern))
+            (Todo.title.ilike(search_pattern))
+            | (Todo.description.ilike(search_pattern))
         )
 
     # Order newest todos first, then by id
-    return query.order_by(desc(Todo.created_at), desc(Todo.id)).offset(skip).limit(limit).all()
+    return (
+        query.order_by(desc(Todo.created_at), desc(Todo.id))
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def get_todo_by_id(db: Session, todo_id: int) -> Todo | None:
@@ -53,7 +58,11 @@ def update_todo(db: Session, todo_id: int, todo_update: TodoUpdate) -> Todo | No
     if not db_todo:
         return None
 
-    update_data = todo_update.model_dump(exclude_unset=True) if hasattr(todo_update, "model_dump") else todo_update.dict(exclude_unset=True)
+    update_data = (
+        todo_update.model_dump(exclude_unset=True)
+        if hasattr(todo_update, "model_dump")
+        else todo_update.dict(exclude_unset=True)
+    )
 
     for field, value in update_data.items():
         if field == "title" and value is not None:

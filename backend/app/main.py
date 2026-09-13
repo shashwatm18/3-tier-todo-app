@@ -36,7 +36,7 @@ async def lifespan(app: FastAPI):
             "Tables will be created once database connection is available.",
             exc,
         )
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         logger.error("Unexpected error initializing tables: %s", exc)
     yield
     logger.info("Shutting down Todo application.")

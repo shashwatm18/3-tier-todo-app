@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Database seed script for the 3-Tier Todo Application.
 
 Connects to the local PostgreSQL database using environment variables,
@@ -126,7 +125,9 @@ def seed_database():
         print("   - Linux: sudo systemctl start postgresql")
         print("   - Windows: Start PostgreSQL service via services.msc")
         print("2. Does the database exist?")
-        print("   - Run: createdb todo_db (or psql -U postgres -c 'CREATE DATABASE todo_db;')")
+        print(
+            "   - Run: createdb todo_db (or psql -U postgres -c 'CREATE DATABASE todo_db;')"
+        )
         print("3. Check your credentials in backend/.env")
         print("!" * 65 + "\n")
         sys.exit(1)
@@ -170,7 +171,7 @@ def seed_database():
         print("Ready! You can now start the FastAPI backend:")
         print("  uvicorn app.main:app --reload --port 8000\n")
 
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         db.rollback()
         print(f"\n[ERROR] Failed during data insertion: {exc}")
         sys.exit(1)
