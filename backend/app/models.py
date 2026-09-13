@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text
 from sqlalchemy.sql import func
 

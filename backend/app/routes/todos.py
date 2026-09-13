@@ -1,23 +1,23 @@
-from typing import List, Optional
+
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
+from app import crud
 from app.database import get_db
 from app.schemas import TodoCreate, TodoResponse, TodoUpdate
-from app import crud
 
 router = APIRouter(prefix="/todos", tags=["Todos"])
 
 
 @router.get(
     "",
-    response_model=List[TodoResponse],
+    response_model=list[TodoResponse],
     summary="List all todos",
     description="Retrieve all todos with optional filtering by completed status or search keyword.",
 )
 def read_todos(
-    completed: Optional[bool] = Query(None, description="Filter by completion status (true or false)"),
-    search: Optional[str] = Query(None, description="Search term matching title or description"),
+    completed: bool | None = Query(None, description="Filter by completion status (true or false)"),
+    search: str | None = Query(None, description="Search term matching title or description"),
     skip: int = Query(0, ge=0, description="Number of records to skip"),
     limit: int = Query(100, ge=1, le=500, description="Max number of records to return"),
     db: Session = Depends(get_db),

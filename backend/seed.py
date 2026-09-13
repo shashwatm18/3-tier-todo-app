@@ -9,6 +9,7 @@ Safe to execute multiple times (idempotent; will not create duplicate entries).
 import os
 import sys
 from datetime import datetime, timezone
+
 from dotenv import load_dotenv
 
 # Ensure the backend directory is in the Python module search path
@@ -21,7 +22,8 @@ load_dotenv(os.path.join(CURRENT_DIR, ".env"))
 
 try:
     from sqlalchemy.exc import OperationalError, SQLAlchemyError
-    from app.database import Base, SessionLocal, engine, DATABASE_URL
+
+    from app.database import DATABASE_URL, Base, SessionLocal, engine
     from app.models import Todo
 except ImportError as e:
     print(f"\n[ERROR] Missing required Python dependencies: {e}")

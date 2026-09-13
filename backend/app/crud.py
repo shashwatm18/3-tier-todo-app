@@ -1,6 +1,6 @@
-from typing import List, Optional
-from sqlalchemy.orm import Session
+
 from sqlalchemy import desc
+from sqlalchemy.orm import Session
 
 from app.models import Todo
 from app.schemas import TodoCreate, TodoUpdate
@@ -10,9 +10,9 @@ def get_todos(
     db: Session,
     skip: int = 0,
     limit: int = 100,
-    completed: Optional[bool] = None,
-    search: Optional[str] = None,
-) -> List[Todo]:
+    completed: bool | None = None,
+    search: str | None = None,
+) -> list[Todo]:
     """Retrieve all todos from the database with optional filtering and search."""
     query = db.query(Todo)
 
@@ -29,7 +29,7 @@ def get_todos(
     return query.order_by(desc(Todo.created_at), desc(Todo.id)).offset(skip).limit(limit).all()
 
 
-def get_todo_by_id(db: Session, todo_id: int) -> Optional[Todo]:
+def get_todo_by_id(db: Session, todo_id: int) -> Todo | None:
     """Retrieve a single todo item by its primary key ID."""
     return db.query(Todo).filter(Todo.id == todo_id).first()
 
@@ -47,7 +47,7 @@ def create_todo(db: Session, todo_in: TodoCreate) -> Todo:
     return db_todo
 
 
-def update_todo(db: Session, todo_id: int, todo_update: TodoUpdate) -> Optional[Todo]:
+def update_todo(db: Session, todo_id: int, todo_update: TodoUpdate) -> Todo | None:
     """Update an existing todo by ID with the provided fields."""
     db_todo = get_todo_by_id(db, todo_id)
     if not db_todo:
