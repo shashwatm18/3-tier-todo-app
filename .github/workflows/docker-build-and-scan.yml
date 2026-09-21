@@ -35,6 +35,7 @@ jobs:
         with:
           image-ref: todo-${{matrix.folders}}:${{github.sha}}
           format: 'table'
+          trivy-version: 'v0.55.2' 
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
