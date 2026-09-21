@@ -1,0 +1,47 @@
+name: Dependencies Scan
+
+on:
+  workflow_dispatch:
+
+jobs:
+  dependencies-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Create Reports directory
+        run: mkdir -p reports
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run dependencies scan for frontend
+        continue-on-error: true 
+        run: |
+          npm audit > ../reports/node-audit-report.txt
+        working-directory: frontend
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Run dependencies scan for backend
+        uses: pypa/gh-action-pip-audit@v1.1.0
+        with:
+          inputs: backend/requirements.txt
+          output: reports/pip-audit-report.txt
+          ignore-failures: true
+
+      - name: Upload reports as artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependencies-scan-reports
+          path: reports/
+          retention-days: 7
