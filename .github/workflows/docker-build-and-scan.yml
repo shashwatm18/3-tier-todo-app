@@ -17,12 +17,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: ${{matrix.folders}}: Lint Dockerfile
+      - name: ${{matrix.folders}} Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: ${{matrix.folders}}/Dockerfile
 
-      - name: ${{matrix.folders}}: Build Docker image
+      - name: ${{matrix.folders}} Build Docker image
         uses: docker/build-push-action@v6
         with:
           context: ./${{matrix.folders}}
@@ -30,7 +30,7 @@ jobs:
           load: true
           tags: todo-${{matrix.folders}}:${{github.sha}}
 
-      - name: ${{matrix.folders}}: Scan Docker image
+      - name: ${{matrix.folders}} Scan Docker image
         uses: aquasecurity/trivy-action@v2
         with:
           image-ref: todo-${{matrix.folders}}:${{github.sha}}
