@@ -31,7 +31,7 @@ jobs:
           tags: todo-${{matrix.folders}}:${{github.sha}}
 
       - name: ${{matrix.folders}} Scan Docker image
-        uses: aquasecurity/trivy-action@v2
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: todo-${{matrix.folders}}:${{github.sha}}
           format: 'table'
