@@ -23,6 +23,7 @@ jobs:
       - name: Run dependencies scan for frontend
         continue-on-error: true 
         run: |
+          npm i --package-lock-only
           npm audit > ../reports/node-audit-report.txt
         working-directory: frontend
 
